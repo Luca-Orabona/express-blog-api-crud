@@ -1,44 +1,21 @@
 import express from "express";
-import foodPosts from "../data.js";
+import foodController from "../controllers/foodController.js";
 
 const router = express.Router();
 
 //INDEX
-router.get("/", (req, res) => {
-    res.json({
-        data: foodPosts,
-        count: foodPosts.length
-    });
-});
-//SHOW
-router.get("/:id", (req, res) => {
-    const foodId = req.params.id;
-    const food = foodPosts.find(curFood => curFood.id === parseInt(foodId));
+router.get("/", foodController.index);
 
-    res.json({
-        data: food
-    });
-});
+//SHOW
+router.get("/:id", foodController.show);
+
 //STORE
-router.post("/", (req, res) => {
-    
-    res.json({
-        data: "Creo un nuovo elemento"
-    });
-});
+router.post("/", foodController.store);
+
 //UPDATE
-router.put("/:id", (req, res) => {
-    
-    res.json({
-        data: "Modifico un elemento"
-    });
-});
+router.put("/:id", foodController.update);
+
 //DESTROY
-router.delete("/:id", (req, res) => {
-    
-    res.json({
-        data: "elimino un elemento"
-    });
-});
+router.delete("/:id", foodController.destroy);
 
 export default router;
