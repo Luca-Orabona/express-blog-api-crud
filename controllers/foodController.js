@@ -35,18 +35,42 @@ const show = (req, res) => {
 
 //STORE
 const store = (req, res) => {
+    const newFood = req.body;
+    const lastId = foodPosts[foodPosts.length - 1].id;
+    newFood.id = (lastId + 1);
 
+    foodPosts.push(newFood);
+
+
+    res.status(201);
     res.json({
-        data: "Creo un nuovo elemento"
+        data: "Nuovo elemento creato con successo!"
     });
 };
 
 //UPDATE
 const update = (req, res) => {
+    const foodUpdate = req.body;
+    const foodId = req.params.id;
+    const food = foodPosts.find(curFood => curFood.id === parseInt(foodId));
 
-    res.json({
-        data: "Modifico un elemento"
-    });
+    if (!food) {
+        return res.status(404).json({
+            error: "L'elemento che cerchi non esiste"
+        });
+    };
+
+
+        food.titolo = foodUpdate.titolo;
+        food.contenuto = foodUpdate.contenuto;
+        food.immagine = foodUpdate.immagine;
+        food.tags = foodUpdate.tags;
+
+        res.json({
+            mess: `Modifica dell'elemento con id ${foodId} avvenuta con successo`,
+            data: food
+        });
+    
 };
 
 //DESTROY
@@ -59,7 +83,7 @@ const destroy = (req, res) => {
     if (index === -1) {
         res.status(404);
         return res.json({
-            data: "Non è possibile eliminare un elemneto che non esiste"
+            error: "Non è possibile eliminare un elemneto che non esiste"
         });
     };
 
