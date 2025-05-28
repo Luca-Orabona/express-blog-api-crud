@@ -4,7 +4,7 @@ import foodPosts from "../data.js";
 const index = (req, res) => {
     const foodQuery = req.query.tags;
 
-    let result = foodPosts;
+    let result = [...foodPosts];
 
     if (foodQuery !== undefined) {
         result = foodPosts.filter(curFood => curFood.tags.includes(foodQuery));
